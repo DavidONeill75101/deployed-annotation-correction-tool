@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 
+import Link from 'next/link'
 
 export default class VotingButtons extends Component {
 
@@ -15,6 +16,7 @@ export default class VotingButtons extends Component {
         this.state = {
             up_variant: 'secondary',
             down_variant: 'secondary',
+	    show_manual_annotation_button: false,
         }
 
         this.get_sentence = this.get_sentence.bind(this)
@@ -113,12 +115,14 @@ export default class VotingButtons extends Component {
         if (this.state.upvoted_users.includes(this.state.user_id)){
             this.setState({
                 up_variant: 'success',
+		show_manual_annotation_button: false,
             })
         }
 
         if (this.state.downvoted_users.includes(this.state.user_id)){
             this.setState({
                 down_variant: 'danger',
+		show_manual_annotation_button: true,
             })
         }
     }
@@ -284,6 +288,10 @@ export default class VotingButtons extends Component {
             .then(function (response) {
                 const sentence = response.data
 
+		self.setState({
+			matching_id: sentence.matching_id,
+		})
+
                 if (typeof sentence.user_upvotes == 'undefined') {
                     self.setState({
                         upvotes: 0,
@@ -338,6 +346,7 @@ export default class VotingButtons extends Component {
 
     render() {
         
+	var manual_button = this.state.show_manual_annotation_button && this.state.matching_id ? <Link href={"/manual_annotation?id=" + this.props.id + "&matching_id=" + this.state.matching_id}><a><Button size="sm">Annotate sentence</Button></a></Link> : <></>
 
         return (
             <div>
@@ -349,7 +358,11 @@ export default class VotingButtons extends Component {
                 <Button size={this.state.downvote_size} variant={this.state.down_variant} onClick={this.downvote_sentence}>
                     <FontAwesomeIcon icon={faThumbsDown} />
                 </Button><center>{this.state.downvotes}</center>
-            </div>
+		
+		<div>
+			{ manual_button }
+		</div>           
+ </div>
             </div>
         )
     }

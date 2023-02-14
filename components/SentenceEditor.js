@@ -6,7 +6,8 @@ import {TokenAnnotator, TextAnnotator} from 'react-text-annotate'
 import Button from 'react-bootstrap/Button'
 import Table from 'react-bootstrap/Table'
 import Router from 'next/router';
- 
+
+import entity_data from '../public/entities.json' 
 
 export default class SentenceEditor extends Component {
 
@@ -84,7 +85,16 @@ export default class SentenceEditor extends Component {
 
 	getGenes() {
 
-		var self = this
+		var res = entity_data['genes']
+		var genes = []
+		res.forEach(element => {
+			genes.push({'value':element, 'label':element})
+		});
+		this.setState({
+			genes: genes,
+		})
+
+		/*var self = this
 		
 		axios.get('/api/get_data/get_genes')
 			.then(function (response) {
@@ -102,13 +112,21 @@ export default class SentenceEditor extends Component {
 			})
 			.then(function () {
 				// always executed
-			});
+			});*/
 	}
 
 
 	getCancers() {
 
-		var self = this
+		var res = entity_data['cancers']
+		var cancers = []
+		res.forEach(element => {
+			cancers.push({'value':element, 'label':element})
+		});
+		this.setState({
+			cancers: cancers,
+		})
+		/*var self = this
 		
 		axios.get('/api/get_data/get_cancers')
 			.then(function (response) {
@@ -126,13 +144,20 @@ export default class SentenceEditor extends Component {
 			})
 			.then(function () {
 				// always executed
-			});
+			});*/
 	}
 
 
 	getDrugs() {
-
-		var self = this
+		var res = entity_data['drugs']
+		var drugs = []
+		res.forEach(element => {
+			drugs.push({'value':element, 'label':element})
+		});
+		this.setState({
+			drugs: drugs,
+		})
+		/*var self = this
 		
 		axios.get('/api/get_data/get_drugs')
 			.then(function (response) {
@@ -150,13 +175,21 @@ export default class SentenceEditor extends Component {
 			})
 			.then(function () {
 				// always executed
-			});
+			});*/
 	}
 
 
 	getVariantEntities() {
 
-		var self = this
+		var res = entity_data['variants']
+		var variants = []
+		res.forEach(element => {
+			variants.push({'value':element, 'label':element})
+		});
+		this.setState({
+			variant_entities: variants,
+		})
+		/*var self = this
 		
 		axios.get('/api/get_data/get_variants')
 			.then(function (response) {
@@ -174,7 +207,7 @@ export default class SentenceEditor extends Component {
 			})
 			.then(function () {
 				// always executed
-			});
+			});*/
 	}
 
 
@@ -950,7 +983,7 @@ export default class SentenceEditor extends Component {
 		this.getCancers()
 		this.getDrugs()
 		this.getVariantEntities()	
-		this.get_variants()
+		//this.get_variants()
 		this.get_other_user_annotations()
 	}
 
@@ -981,8 +1014,8 @@ export default class SentenceEditor extends Component {
 									<option value="variant">variant</option>
 								</select>
 		
-		const annotations_complete_button = <Button className="mt-1 float-right" size="md" onClick={this.add_annotations_to_db}>
-												Annotations Complete
+		const annotations_complete_button = <Button className="mt-1 float-right" size="lg" onClick={this.add_annotations_to_db}>
+												Click here to save and submit annotations
 											</Button>
 
 		const gene_options = this.state.gene_annotations.map(g => <option value={g.value}>{g.text}</option>)

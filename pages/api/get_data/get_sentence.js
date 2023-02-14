@@ -16,6 +16,8 @@ export default async function handle(req, res) {
 			user_upvotes: true,
 			user_downvotes: true,
 			sentence: true,
+			matching_id: true,
+
 		},
 		where: params,
 		

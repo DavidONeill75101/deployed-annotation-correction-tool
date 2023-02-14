@@ -7,6 +7,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table'
 
+import Image from 'next/image';
 
 export default class DownvotedSentences extends Component {
 
@@ -126,7 +127,7 @@ export default class DownvotedSentences extends Component {
 			</Table>
 		}
 		
-		var contents = 'loading...'
+		var contents = <Image src={'http://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'} alt='loading...' height={100} width={100} />
 
 		if (this.state.loaded) {
 			if (this.state.sentences.length == 0){

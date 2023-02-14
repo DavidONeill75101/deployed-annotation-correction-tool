@@ -104,7 +104,7 @@ export default class AnnotationGuide extends Component {
 
 		
         var declaration = <Button className='mb-5' size="sm" onClick={this.update_read_guide}>
-                                Confirm that I have read and understood the annotation guide
+                                Confirm that I have read and understood the key ideas
                           </Button>
 
         if (this.state.user && this.state.user.read_guide) {
@@ -119,9 +119,12 @@ export default class AnnotationGuide extends Component {
                 
                 <div>
                     <div>
-                        <h1 className="h1 mb-0 text-gray-800 mb-2">BLUF</h1>			
+                        <h1 className="h1 mb-0 text-gray-800 mb-2">Key Ideas:</h1>			
+			<p>The following bulletpoints outline the key ideas surrounding the CIViCMine Annotation Review tool, which you should read before using the tool.  The information afterwards can help with specific queries you may have, but are not necessary reading to understand how the tool works.</p>
                     </div>
 
+
+			
                     <ul className="mt-3">
                         <li> <a href="http://bionlp.bcgsc.ca/civicmine/">CIViCMine</a> is a BioNLP platform which predicts relations between genes, cancers and drugs.</li>
                         <li>Some of these predictions are incorrect - it is your mission is to review them.</li>

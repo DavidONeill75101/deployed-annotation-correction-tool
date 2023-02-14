@@ -10,6 +10,7 @@ import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import Button from 'react-bootstrap/Button';
 import { Col, Container, Row } from 'react-bootstrap';
 
+import entity_data from '../public/entities.json'
 
 export default class Relations extends Component {
 
@@ -21,11 +22,12 @@ export default class Relations extends Component {
 			drugs: [],
 			evidenceTypes: [],
 			variants: [],
-			gene: ' ',
-			cancer: ' ',
-			drug: ' ',
-			evidenceType: ' ',
-			variant:' ',			
+			gene: this.props.gene,
+			cancer: this.props.cancer,
+			drug: this.props.drug,
+			evidenceType: this.props.evidence_type,
+			variant:this.props.variant,
+						
 		}
 		
 		this.getGenes = this.getGenes.bind(this);
@@ -43,8 +45,16 @@ export default class Relations extends Component {
 
 
 	getGenes() {
-
-		var self = this
+		var res = entity_data['genes']
+		var genes = []
+		res.forEach(function (value, i) {
+			genes.push({'id':i, 'name':value})
+		})		
+		
+		this.setState({
+			genes: genes,
+		})
+		/*var self = this
 		
 		axios.get('/api/get_data/get_genes')
 			.then(function (response) {
@@ -63,13 +73,23 @@ export default class Relations extends Component {
 			})
 			.then(function () {
 				// always executed
-			});
+				self.getCancers()
+			});*/
+
 	}
 
 
 	getCancers() {
-
-		var self = this
+		var res = entity_data['cancers']
+		var cancers = []
+		res.forEach(function (value, i) {
+			cancers.push({'id':i, 'name':value})
+		})		
+		
+		this.setState({
+			cancers: cancers,
+		})
+		/*var self = this
 		
 		axios.get('/api/get_data/get_cancers')
 			.then(function (response) {
@@ -88,13 +108,23 @@ export default class Relations extends Component {
 			})
 			.then(function () {
 				// always executed
-			});
+				self.getDrugs()
+			});*/
 	}
 
 
 	getDrugs() {
+		var res = entity_data['drugs']
+		var drugs = []
+		res.forEach(function (value, i) {
+			drugs.push({'id':i, 'name':value})
+		})		
+		
+		this.setState({
+			drugs: drugs,
+		})
 
-		var self = this
+		/*var self = this
 		
 		axios.get('/api/get_data/get_drugs')
 			.then(function (response) {
@@ -113,13 +143,23 @@ export default class Relations extends Component {
 			})
 			.then(function () {
 				// always executed
-			});
+				self.getEvidenceTypes()
+			});*/
 	}
 
 
 	getEvidenceTypes() {
+		var res = entity_data['evidence_types']
+		var evidence_types = []
+		res.forEach(element => {
+			evidence_types.push({'value':element, 'label':element})
+		});		
+		
+		this.setState({
+			evidenceTypes: evidence_types,
+		})
 
-		var self = this
+		/*var self = this
 		
 		axios.get('/api/get_data/get_evidence_types')
 			.then(function (response) {
@@ -137,13 +177,22 @@ export default class Relations extends Component {
 			})
 			.then(function () {
 				// always executed
-			});
+				self.getVariants()
+			});*/
 	}
 
 
 	getVariants() {
-
-		var self = this
+		var res = entity_data['variants']
+		var variants = []
+		res.forEach(element => {
+			variants.push({'value':element, 'label':element})
+		});		
+		
+		this.setState({
+			variants: variants,
+		})
+		/*var self = this
 		
 		axios.get('/api/get_data/get_variants')
 			.then(function (response) {
@@ -161,7 +210,7 @@ export default class Relations extends Component {
 			})
 			.then(function () {
 				// always executed
-			});
+			});*/
 	}
 
 
@@ -173,7 +222,7 @@ export default class Relations extends Component {
 		this.getVariants()		
 	}
 
-
+	
 	handleEvidenceTypeClick(e){
 		this.setState({evidenceType:e.label})
 	}
@@ -214,25 +263,36 @@ export default class Relations extends Component {
 	render() {
 
 		var param_string = ''
+		var filters = ''
 
-		if (this.state.gene!=' '){
+		if (typeof this.state.gene!='undefined'){
 			param_string = param_string + '&gene=' + this.state.gene
+			filters = filters + 'Gene: ' + this.state.gene + '\t|\t'
+			
 		}
 
-		if (this.state.cancer!=' '){
+		if (typeof this.state.cancer!='undefined'){
 			param_string = param_string + '&cancer=' + this.state.cancer
+			filters = filters + 'Cancer: ' + this.state.cancer + '\t|\t'
+			
 		}
 
-		if (this.state.drug!=' '){
+		if (typeof this.state.drug!='undefined'){
 			param_string = param_string + '&drug=' + this.state.drug
+			filters = filters + 'Drug: ' + this.state.drug + '\t|\t'
+			
 		}
 
-		if (this.state.evidenceType!=' '){
+		if (typeof this.state.evidenceType!='undefined'){
 			param_string = param_string + '&evidence_type=' + this.state.evidenceType
+			filters = filters + 'Evidence Type: ' + this.state.evidenceType + '\t|\t'
+			
 		}
 
-		if (this.state.variant!=' '){
+		if (typeof this.state.variant!='undefined'){
 			param_string = param_string + '&variant=' + this.state.variant
+			filters = filters + 'Variant: ' + this.state.variant + '\t|\t'
+			
 		}
 
 
@@ -316,7 +376,15 @@ export default class Relations extends Component {
 						<br></br>
 
 						<Row>
-							<Col><Link href={"/collated?range=0-9" + param_string}><a><Button size="md">Apply filters</Button></a></Link></Col>
+							<Col><Link href={"/collated?range=0-9" + param_string}><a><Button className="mb-3" size="md">Apply filters</Button></a></Link></Col>
+						</Row>
+
+						<Row>
+							<Col>{filters}</Col>
+						</Row>
+
+						<Row>
+							<Col><Link href={"/collated?range=0-9"}><a><Button className="mt-3" size="md">Remove Filters</Button></a></Link></Col>
 						</Row>
 
 					</Container>

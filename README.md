@@ -1,1 +1,1 @@
-Deployed version of annotation correction tool
+This is a starter template for [Learn Next.js](https://nextjs.org/learn).

@@ -7,6 +7,8 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table'
 
+import Image from 'next/image';
+
 
 export default class Relations extends Component {
 	constructor(props) {
@@ -101,12 +103,31 @@ export default class Relations extends Component {
 
 	render() {
 
-		var contents = 'loading...'
+		var contents = <Image src={'http://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'} alt='loading...' height={100} width={100} />
 		var prev_link = ''
 		var next_link = ''		
-		
 		if (this.state.loaded) {
+			var param_string = ''
 
+			if (typeof this.state.gene!='undefined'){
+				param_string = param_string + '&gene=' + this.state.gene
+			}
+
+			if (typeof this.state.cancer!='undefined'){
+				param_string = param_string + '&cancer=' + this.state.cancer
+			}
+
+			if (typeof this.state.drug!='undefined'){
+				param_string = param_string + '&drug=' + this.state.drug
+			}
+
+			if (typeof this.state.evidence_type!='undefined'){
+				param_string = param_string + '&evidence_type=' + this.state.evidence_type
+			}
+
+			if (typeof this.state.variant!='undefined'){
+				param_string = param_string + '&variant=' + this.state.variant
+			}
 			var rows = ''
 
 			if (this.state.read_guide==1){
@@ -115,10 +136,10 @@ export default class Relations extends Component {
 					<td>{c.gene}</td><td>{c.cancer}</td>
 					<td>{c.drug}</td><td>{c.variant_group}</td>
 					<td>{c.citation_count}</td>
-					<td><Link href={"/review?id="+c.matching_id+'&range=0-9&citations='+c.citation_count}>
+					<td><Link href={"/review?id="+c.matching_id+'&range=0-9&citations='+c.citation_count+param_string}>
 							<a><Button size="sm">Review Predictions</Button></a>
 						</Link></td>
-					<td><Link href={'/review_downvoted_sentences?id=' + c.matching_id + '&range=0-9&citations=' + c.citation_count}>
+					<td><Link href={'/review_downvoted_sentences?id=' + c.matching_id + '&range=0-9&citations=' + c.citation_count+param_string}>
 						<a><Button size="sm">Annotate Incorrect Sentences</Button></a>
 						</Link></td>
 					</tr>)
@@ -160,29 +181,7 @@ export default class Relations extends Component {
 			var next_start = parseInt(this.state.start)+10
 			var next_end = parseInt(this.state.end) + 10
 
-			var param_string = ''
-
-			if (typeof this.state.gene!='undefined'){
-				param_string = param_string + '&gene=' + this.state.gene
-			}
-
-			if (typeof this.state.cancer!='undefined'){
-				param_string = param_string + '&cancer=' + this.state.cancer
-			}
-
-			if (typeof this.state.drug!='undefined'){
-				param_string = param_string + '&drug=' + this.state.drug
-			}
-
-			if (typeof this.state.evidence_type!='undefined'){
-				param_string = param_string + '&evidence_type=' + this.state.evidence_type
-			}
-
-			if (typeof this.state.variant!='undefined'){
-				param_string = param_string + '&variant=' + this.state.variant
-			}
-
-			if (prev_start>=0){
+						if (prev_start>=0){
 				prev_link = <Link href={"/collated?range="+prev_start + '-' + prev_end + param_string}><a><Button size="md">Previous</Button></a></Link>
 			}
 

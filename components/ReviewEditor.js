@@ -11,6 +11,7 @@ import Table from 'react-bootstrap/Table'
 
 import VotingButtons from './VotingButtons';
 
+import Image from 'next/image';
 
 export default class ReviewEditor extends Component {
 	constructor(props) {
@@ -105,7 +106,7 @@ export default class ReviewEditor extends Component {
 			</Table>
 		}
 		
-		var contents = 'loading...'
+		var contents = <Image src={'http://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'} alt='loading...' height={100} width={100} />
 
 		if (this.state.loaded) {
 

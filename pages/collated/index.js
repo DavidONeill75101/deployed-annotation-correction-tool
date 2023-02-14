@@ -37,7 +37,7 @@ const Collated = () => {
 	
 	
 	const relations = user ? <Relations start={start} end={end} gene={gene} cancer={cancer} drug={drug} evidence_type={evidence_type} variant={variant} username={user.nickname}/> : <div><a href="/api/auth/login"><Button size="sm">Login</Button></a> to use the tool</div>
-	//const filter = user ? <div className="card shadow mb-4"><div className="card-body"><Filter /></div></div> : <></>
+	const filter = user ? <div className="card shadow mb-4"><div className="card-body"><Filter gene={gene} cancer={cancer} drug={drug} evidence_type={evidence_type} variant={variant} /></div></div> : <></>
 		
 	
 	return <Layout title="Relations" page="/relations" >
@@ -46,7 +46,7 @@ const Collated = () => {
 					<h1 className="h3 mb-0 text-gray-800">CIViCMine Annotation Review</h1>
 				</div>
 
-				
+				{filter}			
 								
 				<div className="card shadow mb-4">
 					<div className="card-body">
